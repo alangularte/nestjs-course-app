@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+  db:
+    build: . # gets the Dockerfile that is in the same folder location
+    container_name: devtraining-db
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      # creates a volume "dbdata"
+      # data is stored in "/var/lib/postgres/data" (default postgres data location)
+      # data is mirrored to the local folder "docker/dbdata"
+      # it prevents that the data is lost when the container is destroyed
+      - .docker/dbdata:/var/lib/postgres/data
+    environment:
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=devtraining
