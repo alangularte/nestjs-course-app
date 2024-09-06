@@ -13,11 +13,11 @@ export class CoursesService {
         private readonly courseRepository: Repository<Course>
     ){}
 
-    findAll() {
+    async findAll() {
         return this.courses
     }
 
-    findOne(id: number) {
+    async findOne(id: number) {
         const course = this.courses.find(course => course.id === id)
         if(!course) {
             /*throw new HttpException(`Course ID: ${id} not found`, HttpStatus.NOT_FOUND)*/
@@ -26,12 +26,12 @@ export class CoursesService {
         return course
     }
 
-    create(createCourseDTO: any) {
+    async create(createCourseDTO: any) {
         this.courses.push(createCourseDTO)
         return createCourseDTO
     }
 
-    update(id: number, updateCourseDTO: any) {
+    async update(id: number, updateCourseDTO: any) {
         const existCourse = this.findOne(id)
 
         if(existCourse as any){
@@ -43,7 +43,7 @@ export class CoursesService {
         }
     }
 
-    remove(id: number) {
+    async remove(id: number) {
         const index = this.courses.findIndex(course => course.id === id)
         if(index >= 0){
             this.courses.splice(index, 1)
