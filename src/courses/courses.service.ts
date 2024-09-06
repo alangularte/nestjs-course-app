@@ -13,15 +13,6 @@ export class CoursesService {
         private readonly courseRepository: Repository<Course>
     ){}
 
-    private courses: Course[] = [
-        {
-            id: 1,
-            name: 'NestJs',
-            description: 'Curso sobre NodeJS',
-            tags: ['javascript', 'nodejs', 'nestjs']
-        }
-    ]
-
     findAll() {
         return this.courses
     }
