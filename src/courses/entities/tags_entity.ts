@@ -2,7 +2,7 @@ import { BeforeInsert, Column, CreateDateColumn, Entity, ManyToMany, PrimaryGene
 import { Course } from "./courses_entity";
 import { randomUUID } from "crypto";
 
-@Entity()
+@Entity('tags')
 export class Tag {
     @PrimaryGeneratedColumn('uuid')
     id: string
