@@ -1,3 +1,4 @@
+import { query } from "express";
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
 export class CreateCoursesTagsTable1726001350400 implements MigrationInterface {
@@ -9,12 +10,9 @@ export class CreateCoursesTagsTable1726001350400 implements MigrationInterface {
                 {
                     name: 'id',
                     type: 'uuid',
-                    isPrimary: true
-                },
-                {
-                    name: 'name',
-                    type: 'varchar',
-
+                    isPrimary: true,
+                    generationStrategy: 'uuid',
+                    default: 'uuid_generate_v4()' /* this is a Postgres' method */
                 },
                 {
                     name: 'created_at',
@@ -27,6 +25,7 @@ export class CreateCoursesTagsTable1726001350400 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.dropTable('courses_tags')
     }
 
 }
