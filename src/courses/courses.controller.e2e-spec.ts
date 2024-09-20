@@ -1,12 +1,13 @@
 import 'dotenv/config'
 import { Test, TestingModule } from '@nestjs/testing';
-import { CoursesController } from './courses.controller';
 import { INestApplication } from '@nestjs/common';
 import { Course } from './entities/courses_entity';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { Tag } from './entities/tags_entity';
 import { CoursesModule } from './courses.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import request from 'supertest'
+import { after } from 'node:test';
 
 describe('CoursesController e2e tests', () => {
   let app : INestApplication
@@ -53,7 +54,23 @@ describe('CoursesController e2e tests', () => {
     await dataSource.destroy()
   })
 
-  /*it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });*/
+  afterAll( async () => {
+    module.close()
+  })
+
+  describe('POST /courses', () => {
+    it('should create a course', async () => {
+      const res = await request(app.getHttpServer())
+        .post('/courses')
+        .send(data)
+        .expect(201)
+      expect(res.body.id).toBeDefined()
+      expect(res.body.name).toEqual(data.name)
+      expect(res.body.description).toEqual(data.description)
+      expect(res.body.created_at).toBeDefined()
+      expect(res.body.tags[0].name).toEqual(data.tags[0])
+      expect(res.body.tags[1].name).toEqual(data.tags[1])
+    });
+  })
+
 });
